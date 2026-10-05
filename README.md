@@ -1,4 +1,4 @@
-# GPT-2 (124M) from scratch
+# Recreating GPT-2 (124M)
 
 https://huggingface.co/netrunner20/gpt2-124m-fineweb-edu
 
