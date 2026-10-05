@@ -62,8 +62,8 @@ Measured with single NVIDIA L4, micro batch 8 × 1,024 tokens, and each change a
 | [`train_gpt2.py`](train_gpt2.py) | Model and training: DDP, gradient accumulation, warmup + cosine learning rate, validation, sampling, checkpoints with exact resume |
 | [`fineweb.py`](fineweb.py) | Downloads FineWeb-Edu sample-10BT and writes 100 shards of 100M GPT-2 tokens |
 | [`gpt-2.ipynb`](gpt-2-scalable.ipynb) | Colab notebook that writes the two scripts |
-| [`logs/log.txt`](logs/log.txt) | Training and validation loss for every step |
-| [`logs/train_output.txt`](logs/train_output.txt) | Full console output of the run, including samples every 250 steps |
+| [`log.txt`](logs/log.txt) | Training and validation loss for every step |
+| [`train_output.txt`](logs/train_output.txt) | Full console output of the run, including samples every 250 steps |
 
 ## Reproduce
 
