@@ -1,19 +1,16 @@
 # GPT-2 (124M) from scratch
 
-GPT-2 (124M) built and trained from scratch in PyTorch, following Andrej Karpathy's [Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU). Every speed-up was measured one at a time, and the model was trained on 10B tokens of [FineWeb-Edu](https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu) on 8 × A100.
+https://huggingface.co/netrunner20/gpt2-124m-fineweb-edu
 
-**Final validation loss: 3.073**, lower than OpenAI's GPT-2 (124M) at 3.29 on the same validation data.
+GPT-2 (124M) built and trained from scratch in PyTorch, following Andrej Karpathy's [Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU). Trained on 10B tokens of [FineWeb-Edu](https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu) on 8 × A100 GPUs.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/loss_curve_dark.png">
-  <img src="assets/loss_curve.png" alt="Training and validation loss over 10B tokens. Validation loss falls below OpenAI GPT-2's 3.29 after 3.5B tokens and ends at 3.073.">
-</picture>
+Final validation loss was 3.07, lower than OpenAI's GPT-2 (124M) at 3.29 on the same validation data.
 
 ## Results
 
 | Metric | Result |
 |---|---|
-| Validation loss | **3.073** (OpenAI GPT-2 124M: 3.29) |
+| Validation loss | 3.073 |
 | First below GPT-2 | step 6,750 of 19,073 (3.5B tokens) |
 | Data | FineWeb-Edu sample-10BT: 9.95B tokens in 100 shards |
 | Training | 19,073 steps × 524,288 tokens, 1 h 55 min on 8 × A100 80 GB |
@@ -28,7 +25,7 @@ GPT-2 (124M) built and trained from scratch in PyTorch, following Andrej Karpath
 | 6,750 | 3.54B | 3.2805 |
 | 10,000 | 5.24B | 3.1973 |
 | 15,000 | 7.86B | 3.1102 |
-| 19,073 | 10.0B | **3.0731** |
+| 19,073 | 10.0B | 3.0731 |
 
 ### Samples
 
@@ -41,9 +38,9 @@ Prompt `Hello, I'm a language model,`, 32 tokens, top-50 sampling. Verbatim from
 | 5,000 | Hello, I'm a language model, and all of these are just some of the data structures that I would like to look at. I like to ask all |
 | 19,073 | Hello, I'm a language model, and I know that you should learn your langauge to a minimum. And I don't really want you to think |
 
-## Speed-ups, measured one at a time
+## Speed-up implementations
 
-Single NVIDIA L4, micro batch 8 × 1,024 tokens, each change added on top of the previous ones ([`bench.py`](bench.py)):
+Measured with single NVIDIA L4, micro batch 8 × 1,024 tokens, and each change added on top of the previous ones ([`bench.py`](bench.py)):
 
 | Change | Tokens/sec | vs. baseline |
 |---|---:|---:|
@@ -58,21 +55,15 @@ Single NVIDIA L4, micro batch 8 × 1,024 tokens, each change added on top of the
 | Weight decay + fused AdamW | 37,669 | 5.98× |
 | Gradient accumulation (524,288 tokens per step) | 40,753 | 6.47× |
 
-With DDP on 8 × A100 the full run reached about 1.53M tokens/sec, 37× one L4. What each change does, why it helps, and what it measured: [`gpt2_changelog.md`](gpt2_changelog.md).
-
 ## Files
 
-| File | What it is |
+| File | Description |
 |---|---|
 | [`train_gpt2.py`](train_gpt2.py) | Model and training: DDP, gradient accumulation, warmup + cosine learning rate, validation, sampling, checkpoints with exact resume |
 | [`fineweb.py`](fineweb.py) | Downloads FineWeb-Edu sample-10BT and writes 100 shards of 100M GPT-2 tokens |
-| [`bench.py`](bench.py) | Measures each speed change in a fresh process |
-| [`gpt-2-scalable.ipynb`](gpt-2-scalable.ipynb) | Colab notebook that writes the two scripts |
-| [`gpt2_changelog.md`](gpt2_changelog.md) | Every change: what, why, and the measured effect |
+| [`gpt-2.ipynb`](gpt-2-scalable.ipynb) | Colab notebook that writes the two scripts |
 | [`logs/log.txt`](logs/log.txt) | Training and validation loss for every step |
 | [`logs/train_output.txt`](logs/train_output.txt) | Full console output of the run, including samples every 250 steps |
-
-<!-- TODO: add the Hugging Face link for the weights (gpt2_124m.pt, 498 MB) -->
 
 ## Reproduce
 
@@ -86,4 +77,4 @@ The defaults are the main run. On 40 GB GPUs add `--micro_batch 32`; on a single
 
 ## Credits
 
-Built by following Andrej Karpathy's [video](https://www.youtube.com/watch?v=l8pRSuU81PU) and [build-nanogpt](https://github.com/karpathy/build-nanogpt). Differences from the video: checkpoints with exact resume, evaluation and sampling on the uncompiled model so training keeps `torch.compile`, and validation loss as the only benchmark (no HellaSwag).
+Built by following Andrej Karpathy's [video](https://www.youtube.com/watch?v=l8pRSuU81PU) and [build-nanogpt](https://github.com/karpathy/build-nanogpt). 
