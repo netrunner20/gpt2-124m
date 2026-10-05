@@ -40,7 +40,7 @@ Prompt `Hello, I'm a language model,`, 32 tokens, top-50 sampling. Verbatim from
 
 ## Speed-up implementations
 
-Measured with single NVIDIA L4, micro batch 8 × 1,024 tokens, and each change added on top of the previous ones ([`bench.py`](bench.py)):
+Measured with single NVIDIA L4, micro batch 8 × 1,024 tokens, and each change added on top of the previous ones:
 
 | Change | Tokens/sec | vs. baseline |
 |---|---:|---:|
