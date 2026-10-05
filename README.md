@@ -4,13 +4,11 @@ https://huggingface.co/netrunner20/gpt2-124m-fineweb-edu
 
 GPT-2 (124M) built and trained from scratch in PyTorch, following Andrej Karpathy's [Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU). Trained on 10B tokens of [FineWeb-Edu](https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu) on 8 × A100 GPUs.
 
-Final validation loss was 3.07, lower than OpenAI's GPT-2 (124M) at 3.29 on the same validation data.
-
 ## Results
 
 | Metric | Result |
 |---|---|
-| Validation loss | 3.073 |
+| Validation loss | 3.073(OpenAI GPT-2 (124M) at 3.29) |
 | First below GPT-2 | step 6,750 of 19,073 (3.5B tokens) |
 | Data | FineWeb-Edu sample-10BT: 9.95B tokens in 100 shards |
 | Training | 19,073 steps × 524,288 tokens, 1 h 55 min on 8 × A100 80 GB |
